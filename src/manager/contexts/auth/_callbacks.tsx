@@ -8,11 +8,12 @@ import * as COT from '@commonObjType'
 import * as F from '@fetch'
 import * as LT from '@localType'
 import * as NV from '@nullValue'
+import * as S from '@secret'
 import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
-  refreshToken: (authLevel: number, errCallback?: LT.CallbackType) => Promise<LT.APIReturnType>
+  refreshToken: (authLevel?: number, errCallback?: LT.CallbackType) => Promise<LT.APIReturnType>
 }
 // prettier-ignore
 export const AuthCallbacksContext = createContext<ContextType>({
@@ -40,7 +41,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     }
   }, [])
 
-  const refreshToken = useCallback(async (authLevel: number, errCallback?: LT.CallbackType) => {
+  const refreshToken = useCallback(async (authLevel: number = S.AUTH_NONE, errCallback?: LT.CallbackType) => {
     const isJwt = await U.readStringInLocal('jwtFromServer')
 
     if (!isJwt) {

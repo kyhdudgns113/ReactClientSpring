@@ -1,1 +1,1 @@
-26.11.06 :sparkles: [Client] Auth: 토큰 갱신 구현
+26.11.06 .gitignore 수정
