@@ -1,0 +1,22 @@
+@use '../base/styles/values.scss' as v;
+
+.Template {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+  
+  overflow-y: scroll;
+
+  width: 100vw;
+
+  .Body_Template {
+    display: flex;
+    flex-direction: row;
+    height: calc(100% - v.$Template_Header_Height - v.$Template_Footer_Height);
+
+    position: relative;
+    width: 100%;
+  }
+}

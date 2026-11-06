@@ -1,0 +1,19 @@
+@use '../../../base/styles/values.scss' as v;
+
+.Lefter {
+  background-color: #c0f0f0;
+
+  border-color: v.$BORDER_COLOR;
+  border-style: solid;
+  border-width: 2px;
+
+  display: flex;
+
+  height: v.$Template_Lefter_Height;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: v.$Template_Lefter_Width;
+  z-index: v.$Template_Sidebar_ZIndex;
+}

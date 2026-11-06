@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": [ "ES2023", "DOM" ],
+    "module": "esnext",
+    "types": [ "vite/client" ],
+    "allowArbitraryExtensions": true,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Paths */
+    "paths": {
+      "@commonUtil": [ "./src/base/common/commonUtils" ],
+      "@component": [ "./src/base/components" ],
+      "@context": [ "./src/manager/contexts" ],
+      "@fetch": [ "./src/base/fetch" ],
+
+      "@httpType": [ "./src/base/common/httpTypes" ],
+      "@nullValue": [ "./src/base/values/nullValues" ],
+      "@page": [ "./src/pages" ],
+      "@prop": [ "./src/base/types/props" ],
+
+      "@secret": [ "./src/base/secret" ],
+      "@shareType": [ "./src/base/types/shareTypes" ],
+      "@shareValue": [ "./src/base/values/shareValues" ],
+      "@skill": [ "./src/base/values/skillNames" ],
+      "@socketType": [ "./src/base/types/socketTypes" ],
+
+      "@store": [ "./src/manager/stores" ],
+      "@style": [ "./src/base/styles" ],
+
+      "@type": [ "./src/base/types/types" ],
+      "@util": [ "./src/base/utils" ],
+      "@value": [ "./src/base/values/values" ],
+
+      "@bases/*": [ "./src/base/*" ],
+      "@contexts/*": [ "./src/manager/contexts/*" ],
+      "@styles/*": [ "./src/base/styles/*" ]
+    }
+  },
+  "include": [ "src" ]
+}
