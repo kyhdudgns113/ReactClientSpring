@@ -24,15 +24,19 @@
 
     /* Paths */
     "paths": {
+      "@commonObjType": [ "./src/base/common/commonObjTypes" ],
       "@commonUtil": [ "./src/base/common/commonUtils" ],
       "@component": [ "./src/base/components" ],
       "@context": [ "./src/manager/contexts" ],
       "@fetch": [ "./src/base/fetch" ],
 
       "@httpType": [ "./src/base/common/httpTypes" ],
-      "@nullValue": [ "./src/base/values/nullValues" ],
+      "@localType": [ "./src/base/types/LocalTypes" ],
+      "@nullValue": [ "./src/base/values/NullValues" ],
       "@page": [ "./src/pages" ],
       "@prop": [ "./src/base/types/props" ],
+
+      "@redux": [ "./src/manager/redux" ],
 
       "@secret": [ "./src/base/secret" ],
       "@shareType": [ "./src/base/types/shareTypes" ],
@@ -46,10 +50,6 @@
       "@type": [ "./src/base/types/types" ],
       "@util": [ "./src/base/utils" ],
       "@value": [ "./src/base/values/values" ],
-
-      "@bases/*": [ "./src/base/*" ],
-      "@contexts/*": [ "./src/manager/contexts/*" ],
-      "@styles/*": [ "./src/base/styles/*" ]
     }
   },
   "include": [ "src" ]

@@ -13,6 +13,7 @@ blockquote {
 }
 
 button {
+  border: none;
   user-select: none;
 }
 

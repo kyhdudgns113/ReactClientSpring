@@ -22,12 +22,17 @@ const getOrDel = (methodName: string) => (path: string, jwt: string | null | und
     init = {...init, headers}
   }
 
-  try {
-    // ::
-  } catch (err) {
-    // ::
-    U.alertErrObj(methodName, err)
-  }
+  return fetch(url, init)
+    .then(res => res.json())
+    .then(data => {
+      if (data.statusCode) {
+        U.alertErrMsg(methodName, data.statusCode, data.gkdErrMsg, data.message)
+      }
+      return data
+    })
+    .catch(err => {
+      U.alertErrObj(methodName, err)
+    })
 }
 
 export const get = getOrDel('GET')

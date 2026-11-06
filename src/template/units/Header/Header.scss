@@ -10,6 +10,20 @@
 
   justify-content: center;
 
+  position: relative;
+
   user-select: none;
   width: 100%;
+
+  .ButtonRow_Header {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    padding-top: 4px;
+    padding-right: 24px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
 }
