@@ -1,1 +1,2 @@
-26.11.06 .gitignore 수정
+26.11.06 :memo: GitEmojiRule 문서 추가
+
