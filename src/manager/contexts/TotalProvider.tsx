@@ -1,4 +1,5 @@
 import {AuthProvider} from './auth'
+import {LockProvider} from './lock'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -9,5 +10,9 @@ import type {FC, PropsWithChildren} from 'react'
  * - context 폴더 내의 상하관계를 여기서 정리하기 위해 만들었다
  */
 export const TotalProvider: FC<PropsWithChildren> = ({children}) => {
-  return <AuthProvider>{children}</AuthProvider>
+  return (
+    <LockProvider>
+      <AuthProvider>{children}</AuthProvider>
+    </LockProvider>
+  )
 }

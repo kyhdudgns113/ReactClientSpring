@@ -6,3 +6,5 @@ export type APIReturnType = {
 }
 export type CallbackType = () => void
 export type Setter<T> = Dispatch<SetStateAction<T>>
+
+export type RighterType = 'logIn' | 'signUp' | null

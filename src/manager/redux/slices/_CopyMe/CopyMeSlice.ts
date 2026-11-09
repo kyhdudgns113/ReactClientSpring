@@ -14,7 +14,7 @@ const initialState: CopyMeState = {
   nameCopyMe: 'CopyMe',
 }
 
-export const copyMeSlice = createSlice({
+export const CopyMeSlice = createSlice({
   name: 'copyMe',
   initialState,
   reducers: {

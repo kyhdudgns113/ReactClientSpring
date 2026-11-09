@@ -16,6 +16,7 @@
     flex-direction: row;
     height: calc(100% - v.$Template_Header_Height - v.$Template_Footer_Height);
 
+    overflow: hidden;
     position: relative;
     width: 100%;
   }

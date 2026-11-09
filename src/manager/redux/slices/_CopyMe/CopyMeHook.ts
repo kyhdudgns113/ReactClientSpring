@@ -1,6 +1,6 @@
 import {useAppSelector, useAppDispatch} from '@redux'
 
-import {copyMeSlice} from './slice'
+import {CopyMeSlice} from './CopyMeSlice'
 
 export const useCopyMeStates = () => useAppSelector(state => state.copyMe)
 

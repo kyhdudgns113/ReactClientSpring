@@ -6,6 +6,8 @@ import * as Slices from './slices'
 export const store = configureStore({
   reducer: {
     auth: Slices.authSlice.reducer,
+    lock: Slices.LockSlice.reducer,
+    sideBar: Slices.SideBarSlice.reducer,
   },
 })
 
