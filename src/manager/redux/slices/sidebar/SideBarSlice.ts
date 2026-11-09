@@ -1,11 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, type PayloadAction} from '@reduxjs/toolkit'
 
 // import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
-import type {RighterType} from '@localType'
+import * as LT from '@localType'
 
 interface SideBarState {
   isLefterOpen: boolean
-  righterType: RighterType
+  righterType: LT.RighterType
 }
 
 const initialState: SideBarState = {
@@ -27,11 +27,9 @@ export const SideBarSlice = createSlice({
     openLefter: state => {
       state.isLefterOpen = true
     },
-    openRighterLogIn: state => {
-      state.righterType = 'logIn'
-    },
-    openRighterSignUp: state => {
-      state.righterType = 'signUp'
+
+    setRighterType: (state, action: PayloadAction<{type: LT.RighterType}>) => {
+      state.righterType = action.payload.type
     },
 
     toggleLefter: state => {

@@ -2,6 +2,8 @@ import {useAppSelector, useAppDispatch} from '@redux'
 
 import {SideBarSlice} from './SideBarSlice'
 
+import * as LT from '@localType'
+
 export const useSideBarStates = () => useAppSelector(state => state.sideBar)
 
 export const useSideBarActions = () => {
@@ -12,8 +14,8 @@ export const useSideBarActions = () => {
     closeRighter: () => dispatch(SideBarSlice.actions.closeRighter()),
 
     openLefter: () => dispatch(SideBarSlice.actions.openLefter()),
-    openRighterLogIn: () => dispatch(SideBarSlice.actions.openRighterLogIn()),
-    openRighterSignUp: () => dispatch(SideBarSlice.actions.openRighterSignUp()),
+
+    setRighterType: (type: LT.RighterType) => dispatch(SideBarSlice.actions.setRighterType({type})),
 
     toggleLefter: () => dispatch(SideBarSlice.actions.toggleLefter()),
   }

@@ -1,5 +1,6 @@
 import {AuthProvider} from './auth'
 import {LockProvider} from './lock'
+import {SidebarProvider} from './sidebar'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -12,7 +13,9 @@ import type {FC, PropsWithChildren} from 'react'
 export const TotalProvider: FC<PropsWithChildren> = ({children}) => {
   return (
     <LockProvider>
-      <AuthProvider>{children}</AuthProvider>
+      <SidebarProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </SidebarProvider>
     </LockProvider>
   )
 }

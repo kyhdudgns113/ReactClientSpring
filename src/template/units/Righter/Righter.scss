@@ -1,11 +1,6 @@
 @use '../../../base/styles/values.scss' as v;
 
 .Righter {
-  background-color: #f0c0c0;
-
-  border-color: v.$BORDER_COLOR;
-  border-style: solid;
-  border-width: 2px;
 
   display: flex;
   flex-direction: column;
@@ -15,15 +10,6 @@
   position: absolute;
   right: 0;
   top: 0;
-  transition: transform 0.5s ease;
   width: fit-content;
   z-index: v.$Template_Sidebar_ZIndex;
-
-  &.open {
-    transform: translateX(0);
-  }
-
-  &.close {
-    transform: translateX(100%);
-  }
 }

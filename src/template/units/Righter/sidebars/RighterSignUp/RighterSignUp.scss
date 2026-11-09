@@ -12,5 +12,14 @@
   flex-direction: column;
 
   height: v.$Template_Righter_Height;
+  transition: transform $Righter-Transition-ms ease-in-out;
   width: v.$Template_Righter_Width;
+
+  &.show {
+    transform: translateX(0);
+  }
+
+  &.hide {
+    transform: translateX(100%);
+  }
 }

@@ -11,5 +11,16 @@
   flex-direction: column;
 
   height: fit-content;
+
+  transition: transform $Righter-Transition-ms ease-in-out;
+  
   width: fit-content;
+
+  &.show {
+    transform: translateX(0);
+  }
+
+  &.hide {
+    transform: translateX(100%);
+  }
 }

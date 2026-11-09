@@ -39,6 +39,7 @@
       "@redux": [ "./src/manager/redux" ],
 
       "@secret": [ "./src/base/secret" ],
+      "@settingValue": [ "./src/base/values/setting" ],
       "@shareType": [ "./src/base/types/shareTypes" ],
       "@shareValue": [ "./src/base/values/shareValues" ],
       "@skill": [ "./src/base/values/skillNames" ],

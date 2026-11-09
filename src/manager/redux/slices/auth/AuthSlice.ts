@@ -23,10 +23,7 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     clearAuth: state => {
-      state.userAuth = initialState.userAuth
-      state.userId = initialState.userId
-      state.userEmail = initialState.userEmail
-      state.userName = initialState.userName
+      state = initialState
     },
 
     setAuth: (state, action: PayloadAction<COT.AuthObjectType>) => {
