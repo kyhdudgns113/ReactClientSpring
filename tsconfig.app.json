@@ -52,5 +52,6 @@
       "@value": [ "./src/base/values/values" ],
     }
   },
-  "include": [ "src" ]
+  "include": [ "src" ],
+  "exclude": [ "**/_CopyMe/**" ]
 }
