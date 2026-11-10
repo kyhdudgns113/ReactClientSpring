@@ -1,8 +1,8 @@
 import react from '@vitejs/plugin-react'
 import {defineConfig} from 'vite'
 
-import {CLIENT_PORT} from './src/base/secret'
-import {STYLE_VAL_FROM_TS} from './src/base/styles/styleValFromTS'
+import {CLIENT_PORT} from './src/base/secret/index.ts'
+import {STYLE_VAL_FROM_TS} from './src/base/styles/styleValFromTS.ts'
 
 // https://vite.dev/config/
 export default defineConfig({

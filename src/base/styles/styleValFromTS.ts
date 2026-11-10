@@ -1,4 +1,4 @@
-import * as SV from '../values/setting'
+import * as SV from '../values/setting/index.ts'
 
 /**
  * styleValFromTS

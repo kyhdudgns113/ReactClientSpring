@@ -1,1 +1,1 @@
-export * from './sidebarSettingValues'
+export * from './sidebarSettingValues.ts'
