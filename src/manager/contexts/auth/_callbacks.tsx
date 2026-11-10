@@ -6,6 +6,7 @@ import type {FC, PropsWithChildren} from 'react'
 
 import * as COT from '@commonObjType'
 import * as F from '@fetch'
+import * as HTTP from '@httpType'
 import * as LT from '@localType'
 import * as NV from '@nullValue'
 import * as S from '@secret'
@@ -14,10 +15,14 @@ import * as U from '@util'
 // prettier-ignore
 type ContextType = {
   refreshToken: (authLevel?: number, errCallback?: LT.CallbackType) => Promise<LT.APIReturnType>
+
+  signUp: (userId: string, userEmail: string, userName: string, userPassword: string) => Promise<LT.APIReturnType>
 }
 // prettier-ignore
 export const AuthCallbacksContext = createContext<ContextType>({
   refreshToken: async () => ({isSuccess: false, errMsg: '[AuthContext] refreshToken 이 초기화되지 않았어요'}),
+
+  signUp: async () => ({isSuccess: false, errMsg: '[AuthContext] signUp 이 초기화되지 않았어요'}),
 })
 
 export const useAuthCallbacksContext = () => useContext(AuthCallbacksContext)
@@ -66,12 +71,12 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           if ((!userAuth || userAuth < authLevel) && errCallback) {
             errCallback()
           }
-          return {isSuccess: true}
+          return {isSuccess: true} as LT.APIReturnType
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
           _writeAuthBodyObject(NV.NullAuthBodyObject())
-          return {isSuccess: false}
+          return {isSuccess: false} as LT.APIReturnType
         }
       })
       .catch(errObj => {
@@ -81,13 +86,43 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         if (errCallback) {
           errCallback()
         }
-        return {isSuccess: false}
+        return {isSuccess: false} as LT.APIReturnType
+      })
+  }, [])
+
+  const signUp = useCallback((userId: string, userEmail: string, userName: string, userPassword: string) => {
+    const url = '/auth/signUp'
+    const body: HTTP.SignUpRequestType = {
+      userId,
+      userEmail,
+      userName,
+      userPassword,
+    }
+    return F.post(url, body, null)
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message} = res
+
+        if (ok) {
+          const {jwtFromServer, userAuth} = body
+          _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
+          return {isSuccess: true} as LT.APIReturnType
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false} as LT.APIReturnType
+        }
+      })
+      .catch(errObj => {
+        U.alertErrObj(url, errObj)
+        return {isSuccess: false} as LT.APIReturnType
       })
   }, [])
 
   // prettier-ignore
   const value: ContextType = {
     refreshToken,
+
+    signUp,
   }
   return <AuthCallbacksContext.Provider value={value}>{children}</AuthCallbacksContext.Provider>
 }

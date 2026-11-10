@@ -1,1 +1,1 @@
-26.11.10 :memo: vite 빌드 경고 해결
+26.11.10 :heavy_plus_sign: [Client] 회원가입 UI 및 API 요청 구현

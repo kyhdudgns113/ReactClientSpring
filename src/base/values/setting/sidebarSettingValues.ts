@@ -1,1 +1,1 @@
-export const RIGHTER_TRANSITION_MS = 500
+export const RIGHTER_TRANSITION_MS = 300
