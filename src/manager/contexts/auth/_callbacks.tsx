@@ -14,14 +14,16 @@ import * as U from '@util'
 
 // prettier-ignore
 type ContextType = {
+  logIn: (userIdOrEmail: string, password: string) => Promise<LT.APIReturnType>
+  logOut: () => void
   refreshToken: (authLevel?: number, errCallback?: LT.CallbackType) => Promise<LT.APIReturnType>
-
   signUp: (userId: string, userEmail: string, userName: string, userPassword: string) => Promise<LT.APIReturnType>
 }
 // prettier-ignore
 export const AuthCallbacksContext = createContext<ContextType>({
+  logIn: async () => ({isSuccess: false, errMsg: '[AuthContext] logIn 이 초기화되지 않았어요'}),
+  logOut: () => {throw new Error('[AuthContext] logOut 이 초기화되지 않았어요')},
   refreshToken: async () => ({isSuccess: false, errMsg: '[AuthContext] refreshToken 이 초기화되지 않았어요'}),
-
   signUp: async () => ({isSuccess: false, errMsg: '[AuthContext] signUp 이 초기화되지 않았어요'}),
 })
 
@@ -44,6 +46,38 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     if (callback) {
       callback()
     }
+  }, [])
+
+  const logIn = useCallback((userIdOrEmail: string, password: string) => {
+    const url = '/auth/logIn'
+    const body: HTTP.LogInRequestType = {
+      userIdOrEmail,
+      password,
+    }
+    return F.post(url, body, null)
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message} = res
+
+        if (ok) {
+          const {jwtFromServer, userAuth, userId, userEmail, userName} = body as HTTP.Auth_LogInBodyType
+          _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
+          return {isSuccess: true} as LT.APIReturnType
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          _writeAuthBodyObject(NV.NullAuthBodyObject())
+          return {isSuccess: false} as LT.APIReturnType
+        }
+      })
+      .catch(errObj => {
+        U.alertErrObj(url, errObj)
+        _writeAuthBodyObject(NV.NullAuthBodyObject())
+        return {isSuccess: false} as LT.APIReturnType
+      })
+  }, [])
+
+  const logOut = useCallback(() => {
+    _writeAuthBodyObject(NV.NullAuthBodyObject())
   }, [])
 
   const refreshToken = useCallback(async (authLevel: number = S.AUTH_NONE, errCallback?: LT.CallbackType) => {
@@ -120,8 +154,9 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   // prettier-ignore
   const value: ContextType = {
+    logIn,
+    logOut,
     refreshToken,
-
     signUp,
   }
   return <AuthCallbacksContext.Provider value={value}>{children}</AuthCallbacksContext.Provider>

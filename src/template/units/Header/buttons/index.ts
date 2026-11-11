@@ -1,3 +1,4 @@
 export * from './LogInButton'
-export * from './SignUpButton'
 export * from './LogOutButton'
+export * from './SignUpButton'
+export * from './UserInfoButton'
