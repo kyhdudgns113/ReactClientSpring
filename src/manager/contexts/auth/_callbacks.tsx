@@ -51,7 +51,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   const logIn = useCallback(async (userIdOrEmail: string, password: string) => {
     const url = '/auth/logIn'
-    const body: HTTP.LogInRequestType = {
+    const body: HTTP.Auth_LogInRequestType = {
       userIdOrEmail,
       password,
     }
@@ -96,12 +96,12 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
     const url = '/auth/refreshToken'
     return F.get_WithJWT(url)
-      .then(res => {
+      .then(async res => {
         const {ok, body, statusCode, gkdErrMsg, message} = res
 
         if (ok) {
-          const {jwtFromServer, userAuth, userId, userEmail, userName} = body
-          _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
+          const {jwtFromServer, userAuth, userId, userEmail, userName} = body as HTTP.Auth_RefreshTokenBodyType
+          await _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
 
           if ((!userAuth || userAuth < authLevel) && errCallback) {
             errCallback()
@@ -110,7 +110,10 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          _writeAuthBodyObject(NV.NullAuthBodyObject())
+          await _writeAuthBodyObject(NV.NullAuthBodyObject())
+          if (errCallback) {
+            errCallback()
+          }
           return {isSuccess: false} as LT.APIReturnType
         }
       })
@@ -127,7 +130,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   const signUp = useCallback(async (userId: string, userEmail: string, userName: string, userPassword: string) => {
     const url = '/auth/signUp'
-    const body: HTTP.SignUpRequestType = {
+    const body: HTTP.Auth_SignUpRequestType = {
       userId,
       userEmail,
       userName,

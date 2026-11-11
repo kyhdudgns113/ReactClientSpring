@@ -1,9 +1,9 @@
-export type LogInRequestType = {
+export type Auth_LogInRequestType = {
   userIdOrEmail: string
   password: string
 }
 
-export type SignUpRequestType = {
+export type Auth_SignUpRequestType = {
   userId: string
   userName: string
   userEmail: string

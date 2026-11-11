@@ -14,6 +14,14 @@ export type Auth_LogInBodyType = {
   userName: string
 }
 
+export type Auth_RefreshTokenBodyType = {
+  jwtFromServer: string
+  userAuth: number
+  userEmail: string
+  userId: string
+  userName: string
+}
+
 export type Auth_SignUpBodyType = {
   jwtFromServer: string
   userAuth: number

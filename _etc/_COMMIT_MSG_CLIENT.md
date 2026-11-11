@@ -1,5 +1,4 @@
-26.11.11 :hammer: [Client] fetch 구조 조정
+26.11.11 :wrench: [Client] refreshToken 응답 타입 반영
 
-:building_construction: [Fetch]: JSON 검사와 알림을 _handleResponse 로 모으고, GET/POST 를 NoJWT/WithJWT 로 나눔
-:truck: [Common]: 고정 문자열 jwtUtil 을 secret 인코딩으로 교체
-:wrench: [Context]: 인증 정보 저장을 await 하고, 로컬 키를 jwt 로 통일
+:label: [HTTP]: Auth_RefreshTokenBodyType 추가, 요청 타입을 Auth_ 접두사로 통일
+:wrench: [Context]: refreshToken 이 서버 body 로 인증 정보를 저장하고 실패 시 errCallback 호출
