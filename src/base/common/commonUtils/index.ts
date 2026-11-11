@@ -1,1 +1,1 @@
-export * from './jwtUtil'
+export * from './secret'

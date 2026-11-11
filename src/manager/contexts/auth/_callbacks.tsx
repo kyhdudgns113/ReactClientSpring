@@ -5,6 +5,7 @@ import {useAuthActions} from '@redux'
 import type {FC, PropsWithChildren} from 'react'
 
 import * as COT from '@commonObjType'
+import * as CU from '@commonUtil'
 import * as F from '@fetch'
 import * as HTTP from '@httpType'
 import * as LT from '@localType'
@@ -15,14 +16,14 @@ import * as U from '@util'
 // prettier-ignore
 type ContextType = {
   logIn: (userIdOrEmail: string, password: string) => Promise<LT.APIReturnType>
-  logOut: () => void
+  logOut: () => Promise<void>
   refreshToken: (authLevel?: number, errCallback?: LT.CallbackType) => Promise<LT.APIReturnType>
   signUp: (userId: string, userEmail: string, userName: string, userPassword: string) => Promise<LT.APIReturnType>
 }
 // prettier-ignore
 export const AuthCallbacksContext = createContext<ContextType>({
   logIn: async () => ({isSuccess: false, errMsg: '[AuthContext] logIn 이 초기화되지 않았어요'}),
-  logOut: () => {throw new Error('[AuthContext] logOut 이 초기화되지 않았어요')},
+  logOut: async () => {throw new Error('[AuthContext] logOut 이 초기화되지 않았어요')},
   refreshToken: async () => ({isSuccess: false, errMsg: '[AuthContext] refreshToken 이 초기화되지 않았어요'}),
   signUp: async () => ({isSuccess: false, errMsg: '[AuthContext] signUp 이 초기화되지 않았어요'}),
 })
@@ -34,7 +35,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
   const _writeAuthBodyObject = useCallback(async (body: COT.AuthObjectType, callback?: LT.CallbackType) => {
     await Promise.all([
-      U.writeStringInLocal('jwtFromServer', body.jwtFromServer),
+      U.writeStringInLocal('jwt', CU.encodeJwtFromClient(CU.decodeJwtFromServer(body.jwtFromServer))),
       U.writeStringInLocal('userAuth', body.userAuth.toString()),
       U.writeStringInLocal('userId', body.userId),
       U.writeStringInLocal('userEmail', body.userEmail),
@@ -48,43 +49,43 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     }
   }, [])
 
-  const logIn = useCallback((userIdOrEmail: string, password: string) => {
+  const logIn = useCallback(async (userIdOrEmail: string, password: string) => {
     const url = '/auth/logIn'
     const body: HTTP.LogInRequestType = {
       userIdOrEmail,
       password,
     }
-    return F.post(url, body, null)
-      .then(res => {
+    return F.post_NoJWT(url, body)
+      .then(async res => {
         const {ok, body, statusCode, gkdErrMsg, message} = res
 
         if (ok) {
           const {jwtFromServer, userAuth, userId, userEmail, userName} = body as HTTP.Auth_LogInBodyType
-          _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
+          await _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
           return {isSuccess: true} as LT.APIReturnType
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
-          _writeAuthBodyObject(NV.NullAuthBodyObject())
+          await _writeAuthBodyObject(NV.NullAuthBodyObject())
           return {isSuccess: false} as LT.APIReturnType
         }
       })
-      .catch(errObj => {
+      .catch(async errObj => {
         U.alertErrObj(url, errObj)
-        _writeAuthBodyObject(NV.NullAuthBodyObject())
+        await _writeAuthBodyObject(NV.NullAuthBodyObject())
         return {isSuccess: false} as LT.APIReturnType
       })
   }, [])
 
-  const logOut = useCallback(() => {
-    _writeAuthBodyObject(NV.NullAuthBodyObject())
+  const logOut = useCallback(async () => {
+    await _writeAuthBodyObject(NV.NullAuthBodyObject())
   }, [])
 
   const refreshToken = useCallback(async (authLevel: number = S.AUTH_NONE, errCallback?: LT.CallbackType) => {
-    const isJwt = await U.readStringInLocal('jwtFromServer')
+    const isJwt = await U.readStringInLocal('jwt')
 
     if (!isJwt) {
-      _writeAuthBodyObject(NV.NullAuthBodyObject())
+      await _writeAuthBodyObject(NV.NullAuthBodyObject())
 
       if (errCallback) {
         errCallback()
@@ -94,7 +95,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     }
 
     const url = '/auth/refreshToken'
-    return F.get(url, isJwt)
+    return F.get_WithJWT(url)
       .then(res => {
         const {ok, body, statusCode, gkdErrMsg, message} = res
 
@@ -113,9 +114,9 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           return {isSuccess: false} as LT.APIReturnType
         }
       })
-      .catch(errObj => {
+      .catch(async errObj => {
         U.alertErrObj(url, errObj)
-        _writeAuthBodyObject(NV.NullAuthBodyObject())
+        await _writeAuthBodyObject(NV.NullAuthBodyObject())
 
         if (errCallback) {
           errCallback()
@@ -124,7 +125,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, [])
 
-  const signUp = useCallback((userId: string, userEmail: string, userName: string, userPassword: string) => {
+  const signUp = useCallback(async (userId: string, userEmail: string, userName: string, userPassword: string) => {
     const url = '/auth/signUp'
     const body: HTTP.SignUpRequestType = {
       userId,
@@ -132,22 +133,24 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       userName,
       userPassword,
     }
-    return F.post(url, body, null)
-      .then(res => {
+    return F.post_NoJWT(url, body)
+      .then(async res => {
         const {ok, body, statusCode, gkdErrMsg, message} = res
 
         if (ok) {
           const {jwtFromServer, userAuth} = body as HTTP.Auth_SignUpBodyType
-          _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
+          await _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
           return {isSuccess: true} as LT.APIReturnType
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          await _writeAuthBodyObject(NV.NullAuthBodyObject())
           return {isSuccess: false} as LT.APIReturnType
         }
       })
-      .catch(errObj => {
+      .catch(async errObj => {
         U.alertErrObj(url, errObj)
+        await _writeAuthBodyObject(NV.NullAuthBodyObject())
         return {isSuccess: false} as LT.APIReturnType
       })
   }, [])

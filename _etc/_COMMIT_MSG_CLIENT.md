@@ -1,5 +1,5 @@
-26.11.11 :sparkles: [Client] 로그인 API 요청 추가 및 상단패널 로그인 상태 반영
+26.11.11 :hammer: [Client] fetch 구조 조정
 
-:heavy_plus_sign: [Common]: http 요청, 응답타입 추가
-:heavy_plus_sign: [Context]: 로그인, 로그아웃 함수 추가
-:wrench: [UI]: 상단패널 버튼에 로그인 상태 반영
+:building_construction: [Fetch]: JSON 검사와 알림을 _handleResponse 로 모으고, GET/POST 를 NoJWT/WithJWT 로 나눔
+:truck: [Common]: 고정 문자열 jwtUtil 을 secret 인코딩으로 교체
+:wrench: [Context]: 인증 정보 저장을 await 하고, 로컬 키를 jwt 로 통일

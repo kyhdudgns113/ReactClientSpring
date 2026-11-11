@@ -1,5 +1,4 @@
 export * from './aboutTimer'
 export * from './alertError'
 export * from './getServerURL'
-export * from './jwtUtil'
 export * from './localStorageGKD'
