@@ -103,7 +103,7 @@ export const AuthCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
         const {ok, body, statusCode, gkdErrMsg, message} = res
 
         if (ok) {
-          const {jwtFromServer, userAuth} = body
+          const {jwtFromServer, userAuth} = body as HTTP.Auth_SignUpBodyType
           _writeAuthBodyObject({jwtFromServer, userAuth, userId, userEmail, userName})
           return {isSuccess: true} as LT.APIReturnType
         } // ::

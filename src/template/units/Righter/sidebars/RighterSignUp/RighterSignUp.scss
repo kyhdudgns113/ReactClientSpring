@@ -11,7 +11,7 @@
   flex-direction: column;
   gap: 12px;
 
-  height: v.$Template_Righter_Height;
+  height: fit-content;
   padding: 20px 16px 16px;
   transition: transform $Righter-Transition-ms ease-in-out;
   user-select: none;
@@ -58,7 +58,7 @@
 
   .ButtonRow_SignUp {
     display: flex;
-    margin-top: auto;
+    margin-top: 40px;
     width: 100%;
   }
 

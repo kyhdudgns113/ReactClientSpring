@@ -26,7 +26,7 @@ const postOrPut = (methodName: string) => (path: string, data: object, jwt: stri
   return fetch(url, init)
     .then(res => res.json())
     .then(data => {
-      if (data.statusCode) {
+      if (data.ok === false) {
         U.alertErrMsg(methodName, data.statusCode, data.gkdErrMsg, data.message)
       }
       return data
